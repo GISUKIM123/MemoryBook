@@ -7,27 +7,53 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4DDEF050CBCAE73EFDACDEA /* Pods_MemoryBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F542FBFBE773C146219C6A /* Pods_MemoryBook.framework */; };
+		F62772BD202BAAC800799A84 /* MainCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772BC202BAAC800799A84 /* MainCell.swift */; };
+		F62772BF202BAB3900799A84 /* LikeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772BE202BAB3900799A84 /* LikeCell.swift */; };
+		F62772C1202BAB6100799A84 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772C0202BAB6100799A84 /* CategoryCell.swift */; };
+		F62772C3202BAB7900799A84 /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772C2202BAB7900799A84 /* SettingCell.swift */; };
+		F62772C7202BC4CF00799A84 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F62772C5202BC4CE00799A84 /* iCarousel.m */; };
+		F62772CA202D000300799A84 /* CategoryImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772C9202D000300799A84 /* CategoryImageCell.swift */; };
+		F62772CC202D119700799A84 /* ZoomInAndOutLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */; };
+		F62772CE202D33D600799A84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F62772CD202D33D600799A84 /* Assets.xcassets */; };
+		F673D834202A2EF3001E00FF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F673D833202A2EF3001E00FF /* Extensions.swift */; };
 		F69FBF3D20253F3B0035B91B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF3C20253F3B0035B91B /* AppDelegate.swift */; };
 		F69FBF3F20253F3B0035B91B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF3E20253F3B0035B91B /* MainViewController.swift */; };
 		F69FBF4220253F3B0035B91B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F69FBF4020253F3B0035B91B /* Main.storyboard */; };
-		F69FBF4420253F3B0035B91B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F69FBF4320253F3B0035B91B /* Assets.xcassets */; };
 		F69FBF4720253F3B0035B91B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F69FBF4520253F3B0035B91B /* LaunchScreen.storyboard */; };
 		F69FBF4F202541200035B91B /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF4E202541200035B91B /* ImageCell.swift */; };
 		F69FBF51202566850035B91B /* NavigationBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF50202566850035B91B /* NavigationBarView.swift */; };
 		F69FBF5320269A630035B91B /* CustomziedFlowlayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF5220269A630035B91B /* CustomziedFlowlayout.swift */; };
+		F6DC3F332028FA4300677674 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F6DC3F322028FA4300677674 /* GoogleService-Info.plist */; };
+		F6DC3F39202901A600677674 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DC3F38202901A600677674 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		640ADD912A1FE1BB0CFCEC3C /* Pods-MemoryBook.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryBook.release.xcconfig"; path = "Pods/Target Support Files/Pods-MemoryBook/Pods-MemoryBook.release.xcconfig"; sourceTree = "<group>"; };
+		C5F542FBFBE773C146219C6A /* Pods_MemoryBook.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MemoryBook.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8874E5A2BFBEDDD1893B5F1 /* Pods-MemoryBook.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MemoryBook.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MemoryBook/Pods-MemoryBook.debug.xcconfig"; sourceTree = "<group>"; };
+		F62772BC202BAAC800799A84 /* MainCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCell.swift; sourceTree = "<group>"; };
+		F62772BE202BAB3900799A84 /* LikeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCell.swift; sourceTree = "<group>"; };
+		F62772C0202BAB6100799A84 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		F62772C2202BAB7900799A84 /* SettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
+		F62772C4202BC4CE00799A84 /* MemoryBook-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MemoryBook-Bridging-Header.h"; sourceTree = "<group>"; };
+		F62772C5202BC4CE00799A84 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		F62772C6202BC4CF00799A84 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		F62772C9202D000300799A84 /* CategoryImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryImageCell.swift; sourceTree = "<group>"; };
+		F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAndOutLauncher.swift; sourceTree = "<group>"; };
+		F62772CD202D33D600799A84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F673D833202A2EF3001E00FF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F69FBF3920253F3B0035B91B /* MemoryBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69FBF3C20253F3B0035B91B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F69FBF3E20253F3B0035B91B /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		F69FBF4120253F3B0035B91B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F69FBF4320253F3B0035B91B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F69FBF4620253F3B0035B91B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F69FBF4820253F3B0035B91B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F69FBF4E202541200035B91B /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		F69FBF50202566850035B91B /* NavigationBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarView.swift; sourceTree = "<group>"; };
 		F69FBF5220269A630035B91B /* CustomziedFlowlayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomziedFlowlayout.swift; sourceTree = "<group>"; };
+		F6DC3F322028FA4300677674 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		F6DC3F38202901A600677674 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +61,46 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4DDEF050CBCAE73EFDACDEA /* Pods_MemoryBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		12B587616D97D92A70373790 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C5F542FBFBE773C146219C6A /* Pods_MemoryBook.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F22909A3EA07195A4412B94C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D8874E5A2BFBEDDD1893B5F1 /* Pods-MemoryBook.debug.xcconfig */,
+				640ADD912A1FE1BB0CFCEC3C /* Pods-MemoryBook.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F62772C8202BC4D700799A84 /* Carousel */ = {
+			isa = PBXGroup;
+			children = (
+				F62772C6202BC4CF00799A84 /* iCarousel.h */,
+				F62772C5202BC4CE00799A84 /* iCarousel.m */,
+			);
+			path = Carousel;
+			sourceTree = "<group>";
+		};
 		F69FBF3020253F3B0035B91B = {
 			isa = PBXGroup;
 			children = (
 				F69FBF3B20253F3B0035B91B /* MemoryBook */,
 				F69FBF3A20253F3B0035B91B /* Products */,
+				F22909A3EA07195A4412B94C /* Pods */,
+				12B587616D97D92A70373790 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,17 +115,60 @@
 		F69FBF3B20253F3B0035B91B /* MemoryBook */ = {
 			isa = PBXGroup;
 			children = (
+				F62772C8202BC4D700799A84 /* Carousel */,
+				F6DC3F372028FB4C00677674 /* help */,
+				F6DC3F362028FB3D00677674 /* Model */,
+				F6DC3F352028FB3900677674 /* Views */,
+				F6DC3F342028FB3200677674 /* Controllers */,
 				F69FBF3C20253F3B0035B91B /* AppDelegate.swift */,
-				F69FBF3E20253F3B0035B91B /* MainViewController.swift */,
+				F62772CD202D33D600799A84 /* Assets.xcassets */,
 				F69FBF4020253F3B0035B91B /* Main.storyboard */,
-				F69FBF4320253F3B0035B91B /* Assets.xcassets */,
 				F69FBF4520253F3B0035B91B /* LaunchScreen.storyboard */,
+				F6DC3F322028FA4300677674 /* GoogleService-Info.plist */,
+				F62772C4202BC4CE00799A84 /* MemoryBook-Bridging-Header.h */,
 				F69FBF4820253F3B0035B91B /* Info.plist */,
-				F69FBF4E202541200035B91B /* ImageCell.swift */,
-				F69FBF50202566850035B91B /* NavigationBarView.swift */,
-				F69FBF5220269A630035B91B /* CustomziedFlowlayout.swift */,
 			);
 			path = MemoryBook;
+			sourceTree = "<group>";
+		};
+		F6DC3F342028FB3200677674 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F69FBF3E20253F3B0035B91B /* MainViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		F6DC3F352028FB3900677674 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F69FBF4E202541200035B91B /* ImageCell.swift */,
+				F69FBF50202566850035B91B /* NavigationBarView.swift */,
+				F62772BC202BAAC800799A84 /* MainCell.swift */,
+				F62772BE202BAB3900799A84 /* LikeCell.swift */,
+				F62772C0202BAB6100799A84 /* CategoryCell.swift */,
+				F62772C2202BAB7900799A84 /* SettingCell.swift */,
+				F62772C9202D000300799A84 /* CategoryImageCell.swift */,
+				F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F6DC3F362028FB3D00677674 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F6DC3F38202901A600677674 /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F6DC3F372028FB4C00677674 /* help */ = {
+			isa = PBXGroup;
+			children = (
+				F69FBF5220269A630035B91B /* CustomziedFlowlayout.swift */,
+				F673D833202A2EF3001E00FF /* Extensions.swift */,
+			);
+			path = help;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -80,9 +178,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F69FBF4B20253F3B0035B91B /* Build configuration list for PBXNativeTarget "MemoryBook" */;
 			buildPhases = (
+				C5E303D7A5674DD8F497DB3E /* [CP] Check Pods Manifest.lock */,
 				F69FBF3520253F3B0035B91B /* Sources */,
 				F69FBF3620253F3B0035B91B /* Frameworks */,
 				F69FBF3720253F3B0035B91B /* Resources */,
+				F93CC6894785AFF1B935C74E /* [CP] Embed Pods Frameworks */,
+				F327915BC115F10E07770366 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -105,6 +206,7 @@
 				TargetAttributes = {
 					F69FBF3820253F3B0035B91B = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -133,12 +235,73 @@
 			buildActionMask = 2147483647;
 			files = (
 				F69FBF4720253F3B0035B91B /* LaunchScreen.storyboard in Resources */,
-				F69FBF4420253F3B0035B91B /* Assets.xcassets in Resources */,
 				F69FBF4220253F3B0035B91B /* Main.storyboard in Resources */,
+				F62772CE202D33D600799A84 /* Assets.xcassets in Resources */,
+				F6DC3F332028FA4300677674 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C5E303D7A5674DD8F497DB3E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MemoryBook-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F327915BC115F10E07770366 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MemoryBook/Pods-MemoryBook-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F93CC6894785AFF1B935C74E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-MemoryBook/Pods-MemoryBook-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MemoryBook/Pods-MemoryBook-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F69FBF3520253F3B0035B91B /* Sources */ = {
@@ -147,9 +310,18 @@
 			files = (
 				F69FBF5320269A630035B91B /* CustomziedFlowlayout.swift in Sources */,
 				F69FBF3F20253F3B0035B91B /* MainViewController.swift in Sources */,
+				F6DC3F39202901A600677674 /* User.swift in Sources */,
 				F69FBF3D20253F3B0035B91B /* AppDelegate.swift in Sources */,
+				F62772C3202BAB7900799A84 /* SettingCell.swift in Sources */,
 				F69FBF51202566850035B91B /* NavigationBarView.swift in Sources */,
+				F62772CC202D119700799A84 /* ZoomInAndOutLauncher.swift in Sources */,
 				F69FBF4F202541200035B91B /* ImageCell.swift in Sources */,
+				F62772BD202BAAC800799A84 /* MainCell.swift in Sources */,
+				F62772BF202BAB3900799A84 /* LikeCell.swift in Sources */,
+				F62772C7202BC4CF00799A84 /* iCarousel.m in Sources */,
+				F673D834202A2EF3001E00FF /* Extensions.swift in Sources */,
+				F62772CA202D000300799A84 /* CategoryImageCell.swift in Sources */,
+				F62772C1202BAB6100799A84 /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,14 +456,18 @@
 		};
 		F69FBF4C20253F3B0035B91B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D8874E5A2BFBEDDD1893B5F1 /* Pods-MemoryBook.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L5BM2QJYB5;
 				INFOPLIST_FILE = MemoryBook/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gisukim.MemoryBook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MemoryBook/MemoryBook-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -299,14 +475,17 @@
 		};
 		F69FBF4D20253F3B0035B91B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 640ADD912A1FE1BB0CFCEC3C /* Pods-MemoryBook.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L5BM2QJYB5;
 				INFOPLIST_FILE = MemoryBook/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = gisukim.MemoryBook;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "MemoryBook/MemoryBook-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
