@@ -15,9 +15,6 @@ import FirebaseStorage
 
 class MainViewController: UIViewController{
     let cellId = "cellId"
-    let likeCell = "likeCell"
-    let categoryCell = "categoryCell"
-    let settingCell = "settingCell"
     // access to navigationBarView
     var navigationBarView : NavigationBarView?
     // selected Image
@@ -26,6 +23,8 @@ class MainViewController: UIViewController{
     var currentUser : User?
     // mainpage image Array
     var imageUrls : [String] = [String]()
+    // assigning imageUrl array to maincell to display
+    var assignedImageUrls : [String] = [String]()
     
     var mainCell : MainCell?
     
@@ -45,9 +44,9 @@ class MainViewController: UIViewController{
     lazy var zoomInAndOutLauncher : ZoomInAndOutLauncher = {
         let launcher = ZoomInAndOutLauncher()
         launcher.mainViewController = self
+        
         return launcher
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +64,6 @@ class MainViewController: UIViewController{
         setupUserBased()
         setupNavigationBar()
         setupMainView()
-        
     }
     
     @objc func handleLogout() {
@@ -77,6 +75,7 @@ class MainViewController: UIViewController{
         picker.delegate = self
         picker.allowsEditing = true
         picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        
         present(picker, animated: true, completion: nil)
     }
     
@@ -93,55 +92,63 @@ class MainViewController: UIViewController{
                         self.setupimageUrlArray()
                     }
                 })
-//                let user = User()
-//                user.firstName = "gisu"
-//                user.lastName = "Kim"
-//                user.email = "gisu@gmail.com"
-//                let userValues = ["firstName" : user.firstName, "lastName": user.lastName, "email": user.email]
-//                ref.updateChildValues(userValues)
-                
             }
-            
         }
     }
     
     func setupimageUrlArray() {
         if let userImageUrls = currentUser?.imageUrls {
             self.imageUrls = userImageUrls
+            self.assignedImageUrls = self.imageUrls
         }
         
         self.mainCell?.reloadData()
     }
     
+    var likeCell : LikeCell?
+    
     func setupLikeView() {
-        let likeCell = LikeCell()
-        self.view.addSubview(likeCell)
-        setupContratinsForCell(cell: likeCell)
-        likeCell.currentUser = self.currentUser!
-        likeCell.carouselView.delegate = self
-        likeCell.carouselView.dataSource = self
-        likeCell.carouselView.type = .coverFlow
-        likeCell.setupScrollView(width: self.view.frame.width, height: self.view.frame.height)
+        
+        likeCell = LikeCell()
+        self.view.addSubview(likeCell!)
+        setupContratinsForCell(cell: likeCell!)
+        likeCell?.mainViewController = self
+        likeCell?.currentUser = self.currentUser!
+        likeCell?.carouselView.delegate = self
+        likeCell?.carouselView.dataSource = self
+        likeCell?.carouselView.type = .coverFlow
+        likeCell?.setupScrollView(width: self.view.frame.width, height: self.view.frame.height)
+        
     }
+    
+    var categoryCell : CategoryCell?
     
     func setupCategoryView() {
         
-        let categoryCell = CategoryCell()
-        self.view.addSubview(categoryCell)
+        categoryCell = CategoryCell()
+        categoryCell?.mainViewController = self
+        self.view.addSubview(categoryCell!)
         
-        setupContratinsForCell(cell: categoryCell)
+        setupContratinsForCell(cell: categoryCell!)
     }
     
+    var settingCell : SettingCell?
+    
     func setupSettingView() {
-        let settingCell = SettingCell()
-        self.view.addSubview(settingCell)
-        setupContratinsForCell(cell: settingCell)
         
-        settingCell.settingTableView.dataSource = self
-        settingCell.settingTableView.delegate = self
+        settingCell = SettingCell()
+        self.view.addSubview(settingCell!)
+        setupContratinsForCell(cell: settingCell!)
+        
+        settingCell?.settingTableView.dataSource = self
+        settingCell?.settingTableView.delegate = self
     }
     
     func setupMainView() {
+        if self.mainCell != nil {
+           self.mainCell?.removeFromSuperview()
+        }
+        
         let customizedFlowLayout = CustomizedFlowlayout()
         mainCell = MainCell(frame: .zero, collectionViewLayout: customizedFlowLayout)
         self.mainCell?.collectionViewLayout = customizedFlowLayout
@@ -164,7 +171,8 @@ class MainViewController: UIViewController{
             cell.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             cell.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             cell.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.9)
-            ].forEach{ $0.isActive = true}
+            
+        ].forEach{ $0.isActive = true}
     }
     
     func setupNavigationBar() {
@@ -177,11 +185,10 @@ class MainViewController: UIViewController{
             navigationBarView?.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             navigationBarView?.widthAnchor.constraint(equalTo: self.view.widthAnchor),
             navigationBarView?.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1)
-            ].forEach{ $0?.isActive = true }
+            
+        ].forEach{ $0?.isActive = true }
         
     }
-    
-    
 }
     
 extension MainViewController :  UICollectionViewDataSource, UICollectionViewDelegate  {
@@ -191,14 +198,13 @@ extension MainViewController :  UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.imageUrls.count
+        return self.assignedImageUrls.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageCell
-        cell.imageView.loadImageUsingCacheWithUrl(urlString: imageUrls[indexPath.item])
-        //        cell.imageCellDelegate = self
+        cell.imageView.loadImageUsingCacheWithUrl(urlString: assignedImageUrls[indexPath.item])
         cell.mainViewController = self
         
         return cell
@@ -275,8 +281,9 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
     func storeWithUserID(imageUrl : String) {
         let databaseRef = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
         self.imageUrls.append(imageUrl)
+        self.assignedImageUrls = self.imageUrls
         //TODO: should be user-based
-        let values = ["firstName": "gisu", "lastName": "Kim", "email": "gisu@gmail.com","imageUrls": self.imageUrls] as [String : Any]
+        let values = ["firstName": "gisu", "lastName": "Kim", "email": "gisu@gmail.com","imageUrls": self.assignedImageUrls] as [String : Any]
         databaseRef.updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error!)

@@ -9,6 +9,16 @@
 import UIKit
 
 class LikeCell: UIView, UIScrollViewDelegate {
+    
+    var mainViewController : MainViewController?
+    
+    lazy var zoomInAndOutLauncher : ZoomInAndOutLauncher = {
+        let launcher = ZoomInAndOutLauncher()
+        launcher.mainViewController = self.mainViewController
+        
+        return launcher
+    }()
+    
     let categoryImages: [String] = ["memorybook_category1", "memorybook_category2", "memorybook_category3", "memorybook_category4", "memorybook_category5"]
     
     
@@ -33,6 +43,7 @@ class LikeCell: UIView, UIScrollViewDelegate {
         let cv = UIScrollView()
         cv.backgroundColor = .clear
         cv.delegate = self
+        
         cv.isPagingEnabled = true
         cv.showsHorizontalScrollIndicator = false
         
@@ -48,9 +59,11 @@ class LikeCell: UIView, UIScrollViewDelegate {
     var imageContentWidthForScrollView : CGFloat = 0.0
     
     func setupScrollView(width: CGFloat, height: CGFloat) {
-        for i in 0..<categoryImages.count {
-            let image = UIImage(named: categoryImages[i])
-            let imageView = UIImageView(image: image)
+        for i in 0..<5 {
+            let imageView = UIImageView()
+            imageView.loadImageUsingCacheWithUrl(urlString: (self.mainViewController?.imageUrls[i])!)
+            imageView.isUserInteractionEnabled = true
+            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSliderClicked)))
             
             let xCoordinate =  width * CGFloat(i)
             imageContentWidthForScrollView += width
@@ -62,6 +75,12 @@ class LikeCell: UIView, UIScrollViewDelegate {
         
         pageController.numberOfPages = categoryImages.count
         animateSlider()
+    }
+    
+    @objc func handleSliderClicked(tap: UITapGestureRecognizer) {
+        if let view = tap.view as? UIImageView {
+            zoomInAndOutLauncher.setupLauncher(imageView: view)
+        }
     }
     
     func animateSlider() {
@@ -105,7 +124,7 @@ class LikeCell: UIView, UIScrollViewDelegate {
             animationView.topAnchor.constraint(equalTo: self.topAnchor),
             animationView.leftAnchor.constraint(equalTo: self.leftAnchor),
             animationView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            animationView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.4)
+            animationView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
         
         ].forEach{ $0.isActive = true }
         
@@ -126,7 +145,7 @@ class LikeCell: UIView, UIScrollViewDelegate {
             carouselView.leftAnchor.constraint(equalTo: self.leftAnchor),
             carouselView.topAnchor.constraint(equalTo: animationView.bottomAnchor),
             carouselView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            carouselView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.6)
+            carouselView.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.5)
             ].forEach{ $0.isActive = true }
     
     }

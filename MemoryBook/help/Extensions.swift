@@ -49,7 +49,8 @@ extension UIAlertController {
     
     func alertMessage(message : String, rootController : UIViewController) {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        alert.view.backgroundColor = UIColor.init(white: 1, alpha: 0.5)
+        alert.view.backgroundColor = UIColor.black
+        alert.view.alpha = 0.5
         rootController.present(alert, animated: true, completion: nil)
         //TODO: set timer for dismiss
         

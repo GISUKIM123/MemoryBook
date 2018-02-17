@@ -97,13 +97,31 @@ class NavigationBarView: UIView, UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            self.mainViewController?.setupMainView()
+            if self.mainViewController?.mainCell == nil {
+                self.mainViewController?.setupMainView()
+            } else {
+                self.mainViewController?.assignedImageUrls = (self.mainViewController?.imageUrls)!
+                self.mainViewController?.setupMainView()
+            }
         }else if indexPath.row == 1 {
-            self.mainViewController?.setupLikeView()
+            if self.mainViewController?.likeCell == nil {
+                self.mainViewController?.setupLikeView()
+            }else {
+                self.mainViewController?.view.bringSubview(toFront: (self.mainViewController?.likeCell)!)
+            }
         }else if indexPath.row == 2 {
-            self.mainViewController?.setupCategoryView()
+            if self.mainViewController?.categoryCell == nil {
+                self.mainViewController?.setupCategoryView()
+            }else {
+                self.mainViewController?.view.bringSubview(toFront: (self.mainViewController?.categoryCell)!)
+            }
         }else {
-            self.mainViewController?.setupSettingView()
+            if self.mainViewController?.settingCell == nil {
+                self.mainViewController?.setupSettingView()
+            }else {
+                self.mainViewController?.view.bringSubview(toFront: (self.mainViewController?.settingCell)!)
+            }
+            
         }
     }
     

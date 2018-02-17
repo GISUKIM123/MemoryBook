@@ -16,7 +16,6 @@ class MainCell: UICollectionView {
         super.init(frame: frame, collectionViewLayout: layout)
         
         self.backgroundColor = UIColor.black
-        self.alpha = 0.9
         
         self.register(ImageCell.self, forCellWithReuseIdentifier: cellId)
     }

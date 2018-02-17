@@ -29,77 +29,62 @@ class CustomizedFlowlayout: UICollectionViewLayout {
     
     private var attributesCache = [CustomizedLayoutAttributes]()
     
-    override func prepare() {
-        // clear attributeCache for updates
-//        attributesCache = [CustomizedLayoutAttributes]()
+    var column = 0
+    
+    var columnWidth : CGFloat?
+    var xOffsets = [CGFloat]()
+    var yOffset : [CGFloat]?
+    
+    func setupForInitialStage() {
         
-        let columnWidth = contentWidth / numberOfColumns
-        var xOffsets = [CGFloat]()
+        columnWidth = contentWidth / numberOfColumns
+        xOffsets = [CGFloat]()
         for column in 0..<Int(numberOfColumns) {
-            xOffsets.append(CGFloat(column) * columnWidth)
+            xOffsets.append(CGFloat(column) * columnWidth!)
         }
-        
-        var column = 0
-        var yOffset = [CGFloat] (repeating: 0, count: Int(numberOfColumns))
-        
+        yOffset = [CGFloat] (repeating: 0, count: Int(numberOfColumns))
+    }
+
+    
+    override func prepare() {
+        if columnWidth == nil {
+            setupForInitialStage()
+        }
+
         if attributesCache.isEmpty {
             for item in 0..<collectionView!.numberOfItems(inSection: 0) {
-                let indexPath = IndexPath(item: item, section: 0)
-                let width : CGFloat = columnWidth - cellPadding * 2
-                let photoHeight : CGFloat = (delegate?.collectionView(collectionView: collectionView!, heightForImageAt: indexPath, with: width))!
-                
-                let height : CGFloat = cellPadding * 2 + photoHeight
-                let frame = CGRect(x: xOffsets[column], y: yOffset[column], width: columnWidth, height: height)
-                let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-                
-                // create layout attributes
-                let attributes = CustomizedLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = insetFrame
-                attributes.imageHeight = photoHeight
-                attributesCache.append(attributes)
-                
-                // update column and yOffset
-                contentHeight = max(contentHeight, frame.maxY)
-                yOffset[column] = yOffset[column] + height
-                
-                if column >= (Int(numberOfColumns) - 1) {
-                    column = 0
-                } else {
-                    column += 1
-                }
+                calculateAndStoreHeightForEachImage(item: item)
             }
         }else {
-            for item in (0..<collectionView!.numberOfItems(inSection: 0)).reversed() {
-                let indexPath = IndexPath(item: item, section: 0)
-                let width : CGFloat = columnWidth - cellPadding * 2
-                let photoHeight : CGFloat = (delegate?.collectionView(collectionView: collectionView!, heightForImageAt: indexPath, with: width))!
-                
-                let height : CGFloat = cellPadding * 2 + photoHeight
-                let frame = CGRect(x: xOffsets[column], y: yOffset[column], width: columnWidth, height: height)
-                let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-                
-                // create layout attributes
-                let attributes = CustomizedLayoutAttributes(forCellWith: indexPath)
-                attributes.frame = insetFrame
-                attributes.imageHeight = photoHeight
-                attributesCache.append(attributes)
-                
-                // update column and yOffset
-                contentHeight = max(contentHeight, frame.maxY)
-                yOffset[column] = yOffset[column] + height
-                
-                if column >= (Int(numberOfColumns) - 1) {
-                    column = 0
-                } else {
-                    column += 1
-                }
-                break
-            }
+            let item : Int = collectionView!.numberOfItems(inSection: 0) - 1
+            calculateAndStoreHeightForEachImage(item: item)
         }
     }
     
-    func calculateHeightsForEachImage(item: Int, columnWidth: CGFloat) {
-      
+    func calculateAndStoreHeightForEachImage(item: Int) {
+        let indexPath = IndexPath(item: item, section: 0)
+        let width : CGFloat = columnWidth! - cellPadding * 2
+        let photoHeight : CGFloat = (delegate?.collectionView(collectionView: collectionView!, heightForImageAt: indexPath, with: width))!
+        
+        let height : CGFloat = cellPadding * 2 + photoHeight
+        let frame = CGRect(x: xOffsets[column], y: yOffset![column], width: columnWidth!, height: height)
+        let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
+        
+        // create layout attributes
+        let attributes = CustomizedLayoutAttributes(forCellWith: indexPath)
+        attributes.frame = insetFrame
+        attributes.imageHeight = photoHeight
+        attributesCache.append(attributes)
+        
+        // update column and yOffset
+        contentHeight = max(contentHeight, frame.maxY)
+        yOffset![column] = yOffset![column] + height
+        
+        if column >= (Int(numberOfColumns) - 1) {
+            column = 0
+        } else {
+            column += 1
+        }
     }
     
     override var collectionViewContentSize: CGSize {

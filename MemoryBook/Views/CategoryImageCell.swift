@@ -11,16 +11,15 @@ import UIKit
 class CategoryImageCell: UICollectionViewCell {
     
     var categoryCell : CategoryCell?
+    var indexPath : IndexPath?
     
     lazy var cateogryView : UIImageView = {
         let imgView = UIImageView()
         imgView.backgroundColor = .clear
         imgView.layer.cornerRadius = 30
-        imgView.isUserInteractionEnabled = true
         imgView.contentMode = .scaleAspectFill
         imgView.clipsToBounds = true
         imgView.layer.opacity = 0.8
-        imgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCategoryClicked)))
         
         return imgView
     }()
@@ -33,10 +32,6 @@ class CategoryImageCell: UICollectionViewCell {
         
         return nl
     }()
-    
-    @objc func handleCategoryClicked() {
-        self.categoryCell?.handleCategorySelected()
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
