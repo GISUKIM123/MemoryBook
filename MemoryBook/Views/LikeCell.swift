@@ -61,7 +61,7 @@ class LikeCell: UIView, UIScrollViewDelegate {
     func setupScrollView(width: CGFloat, height: CGFloat) {
         for i in 0..<5 {
             let imageView = UIImageView()
-            imageView.loadImageUsingCacheWithUrl(urlString: (self.mainViewController?.imageUrls[i])!)
+            imageView.loadImageUsingCacheWithUrl(urlString: (self.mainViewController?.userImages[i].imageUrl)!)
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSliderClicked)))
             

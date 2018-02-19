@@ -100,7 +100,7 @@ class NavigationBarView: UIView, UICollectionViewDataSource, UICollectionViewDel
             if self.mainViewController?.mainCell == nil {
                 self.mainViewController?.setupMainView()
             } else {
-                self.mainViewController?.assignedImageUrls = (self.mainViewController?.imageUrls)!
+                self.mainViewController?.filteredImages = (self.mainViewController?.userImages)!
                 self.mainViewController?.setupMainView()
             }
         }else if indexPath.row == 1 {

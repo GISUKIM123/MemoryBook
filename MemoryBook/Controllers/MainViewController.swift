@@ -22,10 +22,11 @@ class MainViewController: UIViewController{
     // current User
     var currentUser : User?
     // mainpage image Array
-    var imageUrls : [String] = [String]()
+    var imageIds : [String] = [String]()
     // assigning imageUrl array to maincell to display
-    var assignedImageUrls : [String] = [String]()
-    
+    var userImages : [Image] = [Image]()
+    // images filted by a category
+    var filteredImages : [Image] = [Image]()
     var mainCell : MainCell?
     
     // image zoom in and out
@@ -52,6 +53,14 @@ class MainViewController: UIViewController{
         super.viewDidLoad()
         
         //TODO: styling Title
+        setupNavigationBar()    
+        setupUserBased()
+        setupMenuBar()
+        setupMainView()
+        
+    }
+    
+    func setupNavigationBar() {
         self.navigationItem.title = "MemoryBook"
         self.navigationController?.navigationBar.titleTextAttributes = [ NSAttributedStringKey.font: UIFont(name: "Zapfino", size: 20)!, NSAttributedStringKey.foregroundColor: UIColor.white]
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
@@ -61,9 +70,7 @@ class MainViewController: UIViewController{
         let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "memorybook_category2")
         self.view.insertSubview(backgroundImage, at: 0)
-        setupUserBased()
-        setupNavigationBar()
-        setupMainView()
+        
     }
     
     @objc func handleLogout() {
@@ -89,20 +96,29 @@ class MainViewController: UIViewController{
                     if let dictionary = snapshot.value as? [String : Any] {
                         self.currentUser = User(dictionary: dictionary)
                         
-                        self.setupimageUrlArray()
+                        self.setupImageArray()
                     }
                 })
             }
         }
     }
     
-    func setupimageUrlArray() {
-        if let userImageUrls = currentUser?.imageUrls {
-            self.imageUrls = userImageUrls
-            self.assignedImageUrls = self.imageUrls
-        }
-        
-        self.mainCell?.reloadData()
+    func setupImageArray() {
+        let databaseRef = Database.database().reference()
+        databaseRef.child("images").observe(.childAdded, with: { (snapshot) in
+            guard let dictionary = snapshot.value as? [String : String] else {
+                return
+            }
+            if dictionary["userId"] == Auth.auth().currentUser?.uid {
+                let image = Image(dictionary: dictionary)
+                self.userImages.append(image)
+            }
+            
+            DispatchQueue.main.async {
+                self.filteredImages = self.userImages
+                self.mainCell?.reloadData()
+            }
+        })
     }
     
     var likeCell : LikeCell?
@@ -139,7 +155,6 @@ class MainViewController: UIViewController{
         settingCell = SettingCell()
         self.view.addSubview(settingCell!)
         setupContratinsForCell(cell: settingCell!)
-        
         settingCell?.settingTableView.dataSource = self
         settingCell?.settingTableView.delegate = self
     }
@@ -175,7 +190,7 @@ class MainViewController: UIViewController{
         ].forEach{ $0.isActive = true}
     }
     
-    func setupNavigationBar() {
+    func setupMenuBar() {
         navigationBarView = NavigationBarView()
         self.view.addSubview(navigationBarView!)
         navigationBarView?.mainViewController = self
@@ -187,7 +202,6 @@ class MainViewController: UIViewController{
             navigationBarView?.heightAnchor.constraint(equalTo: self.view.heightAnchor, multiplier: 0.1)
             
         ].forEach{ $0?.isActive = true }
-        
     }
 }
     
@@ -198,13 +212,13 @@ extension MainViewController :  UICollectionViewDataSource, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.assignedImageUrls.count
+        return self.filteredImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageCell
-        cell.imageView.loadImageUsingCacheWithUrl(urlString: assignedImageUrls[indexPath.item])
+        cell.imageView.loadImageUsingCacheWithUrl(urlString: self.filteredImages[indexPath.row].imageUrl!)
         cell.mainViewController = self
         
         return cell
@@ -271,31 +285,47 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
                     print(error!)
                 }else {
                     if let imageUrl = metadata?.downloadURL()?.absoluteString {
-                        self.storeWithUserID(imageUrl: imageUrl)
+                        self.storeImage(imageUrl: imageUrl, imageName: imageName)
                     }
                 }
             })
         }
     }
     
-    func storeWithUserID(imageUrl : String) {
-        let databaseRef = Database.database().reference().child("users").child((Auth.auth().currentUser?.uid)!)
-        self.imageUrls.append(imageUrl)
-        self.assignedImageUrls = self.imageUrls
+    func storeWithUserID(imageUrl : String, imageName: String) {
+        let databaseRef = Database.database().reference()
         //TODO: should be user-based
-        let values = ["firstName": "gisu", "lastName": "Kim", "email": "gisu@gmail.com","imageUrls": self.assignedImageUrls] as [String : Any]
-        databaseRef.updateChildValues(values) { (error, ref) in
+        var imageIds: [String] = (self.currentUser?.imageIds) == nil ? [String]() : (self.currentUser?.imageIds)!
+        imageIds.append(imageName)
+        let values = ["firstName": "gisu", "lastName": "Kim", "email": "gisu@gmail.com","imageIds": imageIds] as [String : Any]
+        databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error!)
             }
             
+            let valueForNewImage = ["category": "programming", "imageUrl": imageUrl, "userId": Auth.auth().currentUser?.uid]
+            let image = Image(dictionary: valueForNewImage as! [String : String])
+            self.userImages.append(image)
+            self.filteredImages = self.userImages
             //TODO: update UI to see the image added
             DispatchQueue.main.async {
                 //TODO: update current user's info with a new image added
-                self.currentUser?.imageUrls?.append(imageUrl)
+                
                 self.mainCell?.reloadData()
                 UIAlertController().alertMessage(message: "Your picture added 💖", rootController: self)
             }
+        }
+    }
+    
+    func storeImage(imageUrl: String, imageName: String) {
+        let databaseRef = Database.database().reference()
+        let values = ["category": "programming", "userId": Auth.auth().currentUser?.uid, "imageUrl": imageUrl] as? [String : String]
+        databaseRef.child("images").child(imageName).updateChildValues(values!) { (error, ref) in
+            if error != nil {
+                return
+            }
+            
+            self.storeWithUserID(imageUrl: imageUrl, imageName: imageName)
         }
     }
 }
@@ -303,13 +333,13 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
 extension MainViewController : iCarouselDelegate, iCarouselDataSource {
    
     func numberOfItems(in carousel: iCarousel) -> Int {
-        return self.imageUrls.count
+        return self.userImages.count
     }
     
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
         let imageView = UIImageView()
-        imageView.loadImageUsingCacheWithUrl(urlString: imageUrls[index])
+        imageView.loadImageUsingCacheWithUrl(urlString: userImages[index].imageUrl!)
         view.addSubview(imageView)
         imageView.frame = view.frame
         
@@ -348,11 +378,10 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource {
             iconImageView.rightAnchor.constraint(equalTo: cell.rightAnchor, constant: -16),
             iconImageView.widthAnchor.constraint(equalToConstant: 28),
             iconImageView.heightAnchor.constraint(equalToConstant: 28)
-            ].forEach{ $0.isActive = true }
+        ].forEach{ $0.isActive = true }
         
         cell.textLabel?.text = settingArray[indexPath.row]
         cell.textLabel?.textColor = .white
-        
         
         return cell
     }

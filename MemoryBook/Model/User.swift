@@ -12,7 +12,7 @@ class User: NSObject {
     var lastName : String?
     var firstName : String?
     var email : String?
-    var imageUrls : [String]?
+    var imageIds : [String]?
     var likeImageUrls : [String]?
     
     init(dictionary: [String : Any]) {
@@ -28,8 +28,8 @@ class User: NSObject {
             email = dictionary["email"] as? String
         }
         
-        if dictionary["imageUrls"] != nil {
-            imageUrls = dictionary["imageUrls"] as? [String]
+        if dictionary["imageIds"] != nil {
+            imageIds = dictionary["imageIds"] as? [String]
         }
         
         if dictionary["likeImageUrls"] != nil {

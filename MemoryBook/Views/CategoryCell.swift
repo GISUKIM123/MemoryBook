@@ -29,17 +29,16 @@ class CategoryCell: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }()
     
     @objc func handleCategorySelected(tap: UITapGestureRecognizer) {
-        //TODO: handle a category is selected
+//        TODO: handle a category is selected
         if let view = tap.view as? CategoryImageCell {
-            var imageUrlsUnderCategory = [String]()
-            for count in 0..<(self.mainViewController?.imageUrls.count)! {
-                if count % 3 == 0 {
-                    imageUrlsUnderCategory.append((self.mainViewController?.imageUrls[count])!)
+            var imagesFilterdbyCategory = [Image]()
+            for count in 0..<(self.mainViewController?.userImages.count)! {
+                if view.categoryNameLabel.text?.lowercased() == self.mainViewController?.userImages[count].category?.lowercased() {
+                    imagesFilterdbyCategory.append((self.mainViewController?.userImages[count])!)
                 }
             }
-            self.mainViewController?.assignedImageUrls = imageUrlsUnderCategory
+            self.mainViewController?.filteredImages = imagesFilterdbyCategory
             self.mainViewController?.setupMainView()
-
         }
     }
     
