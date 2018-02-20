@@ -15,6 +15,7 @@ import UIKit
 class ImageCell: UICollectionViewCell {
 //    weak var imageCellDelegate : ImageCellDelegate?
     var mainViewController : MainViewController?
+    var imageUrl : String?
     
     lazy var imageView : UIImageView = {
         let imgView = UIImageView()
@@ -28,9 +29,8 @@ class ImageCell: UICollectionViewCell {
     }()
     
     @objc func handleImageClicked(tapGesture: UITapGestureRecognizer) {
-        if let imageView = tapGesture.view as? UIImageView {
-
-            self.mainViewController?.handleImageClicked(imageView: imageView)
+        if let imageView = tapGesture.view as? UIImageView, let imageUrl = self.imageUrl {
+            self.mainViewController?.handleImageClicked(imageView: imageView, imageUrl: imageUrl)
         }
     }
     
@@ -52,8 +52,8 @@ class ImageCell: UICollectionViewCell {
         [
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor),
-            ].forEach{ $0.isActive = true }
+            imageView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        ].forEach{ $0.isActive = true }
         
         imageViewHeightLayoutConstraint = imageView.heightAnchor.constraint(equalTo: self.heightAnchor)
         imageViewHeightLayoutConstraint?.isActive = true

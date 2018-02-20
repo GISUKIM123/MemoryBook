@@ -24,6 +24,19 @@ class CategoryImageCell: UICollectionViewCell {
         return imgView
     }()
     
+    let coverLayerView : UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black
+        view.alpha = 0.5
+        view.layer.cornerRadius = 30
+        view.contentMode = .scaleAspectFill
+        view.clipsToBounds = true
+        view.layer.borderColor = UIColor.red.cgColor
+        view.layer.borderWidth = 5
+        
+        return view
+    }()
+    
     let categoryNameLabel : UILabel = {
         let nl = UILabel()
         nl.font = UIFont.boldSystemFont(ofSize: 25)
@@ -43,7 +56,20 @@ class CategoryImageCell: UICollectionViewCell {
             cateogryView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             cateogryView.widthAnchor.constraint(equalTo: self.widthAnchor),
             cateogryView.heightAnchor.constraint(equalTo: self.heightAnchor)
-            ].forEach{ $0.isActive = true}
+            
+        ].forEach{ $0.isActive = true}
+        
+        addSubview(coverLayerView)
+        coverLayerView.translatesAutoresizingMaskIntoConstraints = false
+        [
+            coverLayerView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            coverLayerView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            coverLayerView.widthAnchor.constraint(equalTo: self.widthAnchor),
+            coverLayerView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            
+        ].forEach{ $0.isActive = true}
+        
+        
         addSubview(categoryNameLabel)
         categoryNameLabel.translatesAutoresizingMaskIntoConstraints = false
         [
@@ -51,7 +77,7 @@ class CategoryImageCell: UICollectionViewCell {
             categoryNameLabel.rightAnchor.constraint(equalTo: cateogryView.rightAnchor, constant: -16),
             categoryNameLabel.widthAnchor.constraint(equalTo: self.widthAnchor),
             categoryNameLabel.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.1)
-            ].forEach{ $0.isActive = true}
+        ].forEach{ $0.isActive = true}
         
     }
     

@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 class ButtonCell : UICollectionViewCell {
     
     var zoomInAndOutLauncher : ZoomInAndOutLauncher?
     var mainViewController : MainViewController?
+        
     
     lazy var button : UIButton = {
         let button = UIButton()
@@ -21,12 +24,42 @@ class ButtonCell : UICollectionViewCell {
     }()
     
     @objc func handleAddToLike() {
-        //TODO: update db
         //TODO: update current user like array
+        if let imageUrl = self.zoomInAndOutLauncher?.imageUrl {
+            self.mainViewController?.currentUser?.likeImageUrls?.append(imageUrl)
+            self.mainViewController?.likeCell?.likeImageUrls = self.mainViewController?.currentUser?.likeImageUrls
+        }
         
-        zoomInAndOutLauncher?.handleDimiss()
-        UIAlertController().alertMessage(message: "Added to your like 💖", rootController: self.mainViewController!)
-        
+        //TODO: update db
+        let databaseRef = Database.database().reference()
+        if  let lastname = self.mainViewController?.currentUser?.lastName                       ,
+            let firstname = self.mainViewController?.currentUser?.firstName                     ,
+            let email = self.mainViewController?.currentUser?.email                             ,
+            let imageIds = self.mainViewController?.currentUser?.imageIds == nil ? [String]() : self.mainViewController?.currentUser?.imageIds,
+            let likeImageUrls = self.mainViewController?.currentUser?.likeImageUrls == nil ? [String]() :  self.mainViewController?.currentUser?.likeImageUrls
+        {
+            let values: [String : Any] = ["lastName": lastname, "firstName": firstname, "email": email, "imageIds": imageIds, "likeImageUrls": likeImageUrls]
+            
+            databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(values) { (error, ref) in
+                if error != nil {
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.mainViewController?.likeCell?.carouselView.reloadData()
+                    self.mainViewController?.likeCell?.timer?.invalidate()
+                    self.mainViewController?.likeCell?.setupScrollView(width: (self.mainViewController?.view.frame.width)!, height: (self.mainViewController?.view.frame.height)!)
+                    if (self.mainViewController?.currentUser?.likeImageUrls?.count)! > 5 {
+                        self.mainViewController?.likeCell?.pageController.numberOfPages = 5
+                    }else {
+                        self.mainViewController?.likeCell?.pageController.numberOfPages = (self.mainViewController?.currentUser?.likeImageUrls?.count)!
+                    }
+                    
+                    self.zoomInAndOutLauncher?.handleDimiss()
+                    UIAlertController().alertMessage(message: "Added to your like 💖", rootController: self.mainViewController!)
+                }
+            }
+        }
     }
     
     override init(frame: CGRect) {
@@ -57,6 +90,9 @@ class ZoomInAndOutLauncher: NSObject, UICollectionViewDelegateFlowLayout, UIColl
     var blackBackgroundView : UIView?
     // contains info of original imageView and image
     var imageView : UIImageView?
+    // selected image
+    var imageUrl : String?
+    
     
     var mainViewController : MainViewController?
     
@@ -80,17 +116,10 @@ class ZoomInAndOutLauncher: NSObject, UICollectionViewDelegateFlowLayout, UIColl
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: buttonCell, for: indexPath) as! ButtonCell
         cell.button.setImage(UIImage(named: buttonNames[indexPath.row])?.withRenderingMode(.alwaysTemplate), for: .normal)
-        cell.button.addTarget(self, action: #selector(handleAddLike), for: .touchUpInside)
         cell.zoomInAndOutLauncher = self
         cell.mainViewController = self.mainViewController
         
         return cell
-    }
-    
-    @objc func handleAddLike() {
-        //TODO: add to current User List
-        //TODO: add to DB
-        //TODO: update UI
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -111,7 +140,7 @@ class ZoomInAndOutLauncher: NSObject, UICollectionViewDelegateFlowLayout, UIColl
     
     var zoomingImageView : UIImageView?
     
-    func setupLauncher(imageView: UIImageView) {
+    func setupLauncher(imageView: UIImageView, imageUrl: String) {
         self.imageView = imageView
         self.imageView?.isHidden = true
         startingFrame = imageView.superview?.convert(imageView.frame, to: nil)
@@ -120,6 +149,8 @@ class ZoomInAndOutLauncher: NSObject, UICollectionViewDelegateFlowLayout, UIColl
         zoomingImageView?.image = imageView.image
         zoomingImageView?.isUserInteractionEnabled = true
         zoomingImageView?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleZoomOut)))
+        self.imageUrl = imageUrl
+        
         
         let image = imageView.image
         
@@ -157,11 +188,7 @@ class ZoomInAndOutLauncher: NSObject, UICollectionViewDelegateFlowLayout, UIColl
     }
     
     @objc func handleZoomOut() {
-        //TODO: zoom out images
-//        if let zoomOutImageView = tapGesture.view as? UIImageView {
-//
-//        }
-        
+        //TODO: zoom out an image
         UIView.animate(withDuration: 0.1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             
             self.zoomingImageView?.frame = self.startingFrame!

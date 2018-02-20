@@ -42,7 +42,8 @@ class MenuCell : UICollectionViewCell {
             imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             imageView.widthAnchor.constraint(lessThanOrEqualToConstant: 44),
             imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 44)
-            ].forEach{ $0.isActive = true}
+            
+        ].forEach{ $0.isActive = true}
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -112,6 +113,7 @@ class NavigationBarView: UIView, UICollectionViewDataSource, UICollectionViewDel
         }else if indexPath.row == 2 {
             if self.mainViewController?.categoryCell == nil {
                 self.mainViewController?.setupCategoryView()
+                
             }else {
                 self.mainViewController?.view.bringSubview(toFront: (self.mainViewController?.categoryCell)!)
             }

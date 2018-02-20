@@ -12,8 +12,8 @@ class CategoryCell: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     
     var mainViewController : MainViewController?
     let categoryCellId = "categoryCellId"
-    let categoryImages: [String] = ["memorybook_category1", "memorybook_category2", "memorybook_category3", "memorybook_category4", "memorybook_category5"]
-    let categories: [String] = ["Natural", "Programming", "Life", "Object", "Smoke"]
+    var categoryCovers: [String] = ["memorybook_nature", "memorybook_programming", "memorybook_life", "memorybook_object", "memorybook_smoke"]
+    let categories: [String] = ["Nature", "Programming", "Life", "Object", "Smoke"]
     
     
     lazy var cateogryCollectionView : UICollectionView = {
@@ -43,12 +43,12 @@ class CategoryCell: UIView, UICollectionViewDataSource, UICollectionViewDelegate
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return categoryImages.count
+        return categoryCovers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: categoryCellId, for: indexPath) as! CategoryImageCell
-        cell.cateogryView.image = UIImage(named: categoryImages[indexPath.row])
+        cell.cateogryView.image = UIImage(named: categoryCovers[indexPath.row])
         cell.categoryNameLabel.text = categories[indexPath.row]
         cell.isUserInteractionEnabled = true
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleCategorySelected)))
@@ -74,6 +74,7 @@ class CategoryCell: UIView, UICollectionViewDataSource, UICollectionViewDelegate
             cateogryCollectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             cateogryCollectionView.widthAnchor.constraint(equalTo: self.widthAnchor),
             cateogryCollectionView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            
         ].forEach{ $0.isActive = true}
         
     }

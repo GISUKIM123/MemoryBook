@@ -34,6 +34,8 @@ class User: NSObject {
         
         if dictionary["likeImageUrls"] != nil {
             likeImageUrls = dictionary["likeImageUrls"] as? [String]
+        }else {
+            likeImageUrls = [String]()
         }
     }
 }

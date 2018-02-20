@@ -16,6 +16,7 @@
 		F62772CA202D000300799A84 /* CategoryImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772C9202D000300799A84 /* CategoryImageCell.swift */; };
 		F62772CC202D119700799A84 /* ZoomInAndOutLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */; };
 		F62772CE202D33D600799A84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F62772CD202D33D600799A84 /* Assets.xcassets */; };
+		F62CB099203BA3400052069E /* CategorySelectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62CB098203BA3400052069E /* CategorySelectingView.swift */; };
 		F673D834202A2EF3001E00FF /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F673D833202A2EF3001E00FF /* Extensions.swift */; };
 		F69FBF3D20253F3B0035B91B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF3C20253F3B0035B91B /* AppDelegate.swift */; };
 		F69FBF3F20253F3B0035B91B /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69FBF3E20253F3B0035B91B /* MainViewController.swift */; };
@@ -43,6 +44,7 @@
 		F62772C9202D000300799A84 /* CategoryImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryImageCell.swift; sourceTree = "<group>"; };
 		F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomInAndOutLauncher.swift; sourceTree = "<group>"; };
 		F62772CD202D33D600799A84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F62CB098203BA3400052069E /* CategorySelectingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectingView.swift; sourceTree = "<group>"; };
 		F673D833202A2EF3001E00FF /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F69FBF3920253F3B0035B91B /* MemoryBook.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoryBook.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F69FBF3C20253F3B0035B91B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				F62772C2202BAB7900799A84 /* SettingCell.swift */,
 				F62772C9202D000300799A84 /* CategoryImageCell.swift */,
 				F62772CB202D119700799A84 /* ZoomInAndOutLauncher.swift */,
+				F62CB098203BA3400052069E /* CategorySelectingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				F62772BF202BAB3900799A84 /* LikeCell.swift in Sources */,
 				F62772C7202BC4CF00799A84 /* iCarousel.m in Sources */,
 				F673D834202A2EF3001E00FF /* Extensions.swift in Sources */,
+				F62CB099203BA3400052069E /* CategorySelectingView.swift in Sources */,
 				F62772CA202D000300799A84 /* CategoryImageCell.swift in Sources */,
 				F62772C1202BAB6100799A84 /* CategoryCell.swift in Sources */,
 			);

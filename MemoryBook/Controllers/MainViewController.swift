@@ -37,6 +37,10 @@ class MainViewController: UIViewController{
     var blackBackgroundView : UIView?
     // contains info of original imageView and image
     var imageView : UIImageView?
+    // a view providing a selection of category
+    var categorySelectingView : CategorySelectingView?
+    // detect a category of a selected image
+    var selectedCategory : String?
     
     var settingArray : [String] = ["About", "Instagram", "Rate", "Share", "Theme"]
     
@@ -78,12 +82,13 @@ class MainViewController: UIViewController{
     }
     
     @objc func handleAddImage() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.allowsEditing = true
-        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
-        
-        present(picker, animated: true, completion: nil)
+        self.categorySelectingView = CategorySelectingView()
+        self.categorySelectingView?.mainViewController = self
+        self.view.addSubview(categorySelectingView!)
+        self.categorySelectingView?.frame = CGRect(x: 0, y: 500, width: self.view.frame.width, height: self.view.frame.height)
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+            self.categorySelectingView?.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height)
+        }, completion: nil)
     }
     
     func setupUserBased() {
@@ -148,6 +153,7 @@ class MainViewController: UIViewController{
         setupContratinsForCell(cell: categoryCell!)
     }
     
+    
     var settingCell : SettingCell?
     
     func setupSettingView() {
@@ -158,6 +164,8 @@ class MainViewController: UIViewController{
         settingCell?.settingTableView.dataSource = self
         settingCell?.settingTableView.delegate = self
     }
+    
+    
     
     func setupMainView() {
         if self.mainCell != nil {
@@ -220,6 +228,7 @@ extension MainViewController :  UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! ImageCell
         cell.imageView.loadImageUsingCacheWithUrl(urlString: self.filteredImages[indexPath.row].imageUrl!)
         cell.mainViewController = self
+        cell.imageUrl = self.filteredImages[indexPath.row].imageUrl
         
         return cell
     }
@@ -236,8 +245,8 @@ extension MainViewController :  UICollectionViewDataSource, UICollectionViewDele
         return UIEdgeInsets(top: 20, left: 0, bottom: 10, right: 0)
     }
     
-    func handleImageClicked(imageView: UIImageView) {
-        zoomInAndOutLauncher.setupLauncher(imageView: imageView)
+    func handleImageClicked(imageView: UIImageView, imageUrl: String) {
+        zoomInAndOutLauncher.setupLauncher(imageView: imageView, imageUrl: imageUrl)
     }
 }
 
@@ -319,13 +328,15 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
     
     func storeImage(imageUrl: String, imageName: String) {
         let databaseRef = Database.database().reference()
-        let values = ["category": "programming", "userId": Auth.auth().currentUser?.uid, "imageUrl": imageUrl] as? [String : String]
-        databaseRef.child("images").child(imageName).updateChildValues(values!) { (error, ref) in
-            if error != nil {
-                return
+        if let cateogry = selectedCategory {
+            let values = ["category": cateogry, "userId": Auth.auth().currentUser?.uid, "imageUrl": imageUrl] as? [String : String]
+            databaseRef.child("images").child(imageName).updateChildValues(values!) { (error, ref) in
+                if error != nil {
+                    return
+                }
+                
+                self.storeWithUserID(imageUrl: imageUrl, imageName: imageName)
             }
-            
-            self.storeWithUserID(imageUrl: imageUrl, imageName: imageName)
         }
     }
 }
@@ -333,13 +344,13 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
 extension MainViewController : iCarouselDelegate, iCarouselDataSource {
    
     func numberOfItems(in carousel: iCarousel) -> Int {
-        return self.userImages.count
+        return self.currentUser?.likeImageUrls?.count == 0 ? 0 : (self.currentUser?.likeImageUrls?.count)!
     }
     
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
         let imageView = UIImageView()
-        imageView.loadImageUsingCacheWithUrl(urlString: userImages[index].imageUrl!)
+        imageView.loadImageUsingCacheWithUrl(urlString: (self.currentUser?.likeImageUrls![index])!)
         view.addSubview(imageView)
         imageView.frame = view.frame
         
@@ -378,6 +389,7 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource {
             iconImageView.rightAnchor.constraint(equalTo: cell.rightAnchor, constant: -16),
             iconImageView.widthAnchor.constraint(equalToConstant: 28),
             iconImageView.heightAnchor.constraint(equalToConstant: 28)
+            
         ].forEach{ $0.isActive = true }
         
         cell.textLabel?.text = settingArray[indexPath.row]
