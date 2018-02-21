@@ -31,8 +31,6 @@ class CategoryImageCell: UICollectionViewCell {
         view.layer.cornerRadius = 30
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
-        view.layer.borderColor = UIColor.red.cgColor
-        view.layer.borderWidth = 5
         
         return view
     }()

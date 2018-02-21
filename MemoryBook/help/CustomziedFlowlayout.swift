@@ -36,7 +36,6 @@ class CustomizedFlowlayout: UICollectionViewLayout {
     var yOffset : [CGFloat]?
     
     func setupForInitialStage() {
-        
         columnWidth = contentWidth / numberOfColumns
         xOffsets = [CGFloat]()
         for column in 0..<Int(numberOfColumns) {
@@ -85,6 +84,7 @@ class CustomizedFlowlayout: UICollectionViewLayout {
         } else {
             column += 1
         }
+        
     }
     
     override var collectionViewContentSize: CGSize {

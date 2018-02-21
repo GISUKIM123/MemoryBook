@@ -66,17 +66,20 @@ class LikeCell: UIView, UIScrollViewDelegate {
     
     func setupScrollView(width: CGFloat, height: CGFloat) {
         imageContentWidthForScrollView = 0.0
-        
-        if (likeImageUrls?.count)! < 5 {
-            setupSliderWith(nuberOfImage: (likeImageUrls?.count)!, width: width, height: height)
+        if (likeImageUrls?.count)! != 0 {
+            if (likeImageUrls?.count)! < 5 {
+                setupSliderWith(nuberOfImage: (likeImageUrls?.count)!, width: width, height: height)
+            }else {
+                setupSliderWith(nuberOfImage: 5, width: width, height: height)
+            }
+            
+            animationView?.contentSize = CGSize(width: imageContentWidthForScrollView, height: self.frame.height)
+            
+            pageController.numberOfPages = (likeImageUrls?.count)!
+            animateSlider()
         }else {
-            setupSliderWith(nuberOfImage: 5, width: width, height: height)
+            //TODO: if there is no like item in the user's list
         }
-        
-        animationView?.contentSize = CGSize(width: imageContentWidthForScrollView, height: self.frame.height)
-        
-        pageController.numberOfPages = (likeImageUrls?.count)!
-        animateSlider()
     }
     
     func setupSliderWith(nuberOfImage: Int, width: CGFloat, height: CGFloat) {
@@ -84,6 +87,8 @@ class LikeCell: UIView, UIScrollViewDelegate {
             let imageView = SliderImageCell()
             imageView.loadImageUsingCacheWithUrl(urlString: (likeImageUrls![i]))
             imageView.imageUrl = likeImageUrls?[i]
+            imageView.contentMode = .scaleAspectFill
+            imageView.clipsToBounds = true
             imageView.isUserInteractionEnabled = true
             imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleSliderClicked)))
             

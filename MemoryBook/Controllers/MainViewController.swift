@@ -29,6 +29,8 @@ class MainViewController: UIViewController{
     var filteredImages : [Image] = [Image]()
     var mainCell : MainCell?
     
+    //database reference
+    let databaseRef = Database.database().reference()
     // image zoom in and out
     
     // remind original size of an image
@@ -109,11 +111,11 @@ class MainViewController: UIViewController{
     }
     
     func setupImageArray() {
-        let databaseRef = Database.database().reference()
         databaseRef.child("images").observe(.childAdded, with: { (snapshot) in
             guard let dictionary = snapshot.value as? [String : String] else {
                 return
             }
+            
             if dictionary["userId"] == Auth.auth().currentUser?.uid {
                 let image = Image(dictionary: dictionary)
                 self.userImages.append(image)
@@ -160,9 +162,10 @@ class MainViewController: UIViewController{
         
         settingCell = SettingCell()
         self.view.addSubview(settingCell!)
-        setupContratinsForCell(cell: settingCell!)
         settingCell?.settingTableView.dataSource = self
         settingCell?.settingTableView.delegate = self
+        
+        setupContratinsForCell(cell: settingCell!)
     }
     
     
@@ -302,41 +305,38 @@ extension MainViewController : UIImagePickerControllerDelegate, UINavigationCont
     }
     
     func storeWithUserID(imageUrl : String, imageName: String) {
-        let databaseRef = Database.database().reference()
         //TODO: should be user-based
         var imageIds: [String] = (self.currentUser?.imageIds) == nil ? [String]() : (self.currentUser?.imageIds)!
+        let likeImageIds: [String] = (self.currentUser?.likeImageUrls) == nil ? [String]() : (self.currentUser?.likeImageUrls)!
         imageIds.append(imageName)
-        let values = ["firstName": "gisu", "lastName": "Kim", "email": "gisu@gmail.com","imageIds": imageIds] as [String : Any]
+        
+        let values = ["firstName": "gisu"                               ,
+                      "lastName": "Kim"                                 ,
+                      "email": "gisu@gmail.com"                         ,
+                      "imageIds": imageIds                              ,
+                      "likeImageUrls": likeImageIds                     ] as [String : Any]
+        
         databaseRef.child("users").child((Auth.auth().currentUser?.uid)!).updateChildValues(values) { (error, ref) in
             if error != nil {
                 print(error!)
             }
             
-            let valueForNewImage = ["category": "programming", "imageUrl": imageUrl, "userId": Auth.auth().currentUser?.uid]
-            let image = Image(dictionary: valueForNewImage as! [String : String])
-            self.userImages.append(image)
-            self.filteredImages = self.userImages
-            //TODO: update UI to see the image added
             DispatchQueue.main.async {
-                //TODO: update current user's info with a new image added
-                
-                self.mainCell?.reloadData()
                 UIAlertController().alertMessage(message: "Your picture added 💖", rootController: self)
             }
         }
     }
     
     func storeImage(imageUrl: String, imageName: String) {
-        let databaseRef = Database.database().reference()
         if let cateogry = selectedCategory {
             let values = ["category": cateogry, "userId": Auth.auth().currentUser?.uid, "imageUrl": imageUrl] as? [String : String]
-            databaseRef.child("images").child(imageName).updateChildValues(values!) { (error, ref) in
+            databaseRef.child("images").child(imageName).setValue(values, withCompletionBlock: { (error, ref) in
                 if error != nil {
                     return
                 }
                 
                 self.storeWithUserID(imageUrl: imageUrl, imageName: imageName)
-            }
+            })
         }
     }
 }
@@ -396,6 +396,15 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.textColor = .white
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.textLabel?.textColor = .white
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.textLabel?.textColor = UIColor.black
+        
     }
 }
     

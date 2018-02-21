@@ -37,8 +37,6 @@ class SettingCell: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.black
-
-        
         
         addSubview(userInfoContainer)
         userInfoContainer.translatesAutoresizingMaskIntoConstraints = false

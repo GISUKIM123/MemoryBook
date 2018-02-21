@@ -30,7 +30,10 @@ class User: NSObject {
         
         if dictionary["imageIds"] != nil {
             imageIds = dictionary["imageIds"] as? [String]
+        }else {
+            imageIds = [String]()
         }
+        
         
         if dictionary["likeImageUrls"] != nil {
             likeImageUrls = dictionary["likeImageUrls"] as? [String]
