@@ -79,8 +79,12 @@ class MainViewController: UIViewController{
         
     }
     
+    var loginAndRegisterController : LoginAndRegisterController?
+    
     @objc func handleLogout() {
-        print(1)
+        loginAndRegisterController = LoginAndRegisterController()
+        
+        self.present(loginAndRegisterController!, animated: true, completion: nil)
     }
     
     @objc func handleAddImage() {
