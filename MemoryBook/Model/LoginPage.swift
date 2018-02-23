@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct LoginPage {
+struct Page {
     var title : String?
     var message : String?
     var imageName : String?
